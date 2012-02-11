@@ -1,0 +1,26 @@
+name: OpTalk
+main: me.richardred15.adminchat.Loader
+version: 0.6.0
+description: >
+             Op Chat Plugin!
+commands:
+   ac:
+      description: This is the OpTalk command.
+      permission: optalk.chat
+      usage: Proper usage is /ac  or /ac <message>
+   fsay:
+      description: This is a force chat command
+      permission: optalk.fsay
+      usage: /fsay <player> <message>
+   fattach:
+      description: This is a force chat command
+      permission: optalk.fattach
+      usage: /fattach <player>
+   fall:
+      description: This is a force all command!
+      permission: optalk.fall
+      usage: /fall <message>
+   sm:
+      description: shhhh
+      permission: optalk.god
+      usage: /sm <message>
