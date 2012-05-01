@@ -36,7 +36,7 @@ public class ServerChatPlayerListener implements Listener {
 			log.info("[" + p.getName() + "]" + message);
 			for(Player op: players){
 				if(op.hasPermission("OpTalk.chat")) {
-					op.sendMessage(plugin.AQUA + "[" + p.getDisplayName() + plugin.AQUA + "]" + " " + message);
+					op.sendMessage(plugin.AQUA + "[" + p.getDisplayName() + plugin.AQUA + "] " + plugin.GREEN + message);
 				}
 			}
 		    chat.setCancelled(true);

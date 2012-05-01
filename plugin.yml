@@ -1,6 +1,6 @@
 name: OpTalk
 main: me.richardred15.adminchat.Loader
-version: 0.6.0
+version: 0.6.2
 description: >
              Op Chat Plugin!
 commands:
