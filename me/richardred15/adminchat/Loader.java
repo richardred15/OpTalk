@@ -1,5 +1,6 @@
 package me.richardred15.adminchat;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -17,7 +18,7 @@ public class Loader extends JavaPlugin {
 	Channel channel = new Channel();
 	Logger log = Logger.getLogger("Minecraft");
 	ChatColor WHITE = ChatColor.WHITE;
-	ChatColor RED = ChatColor.DARK_RED;
+	ChatColor RED = ChatColor.RED;
 	ChatColor AQUA = ChatColor.AQUA;
 	ChatColor GREEN = ChatColor.GREEN;
 	ChatColor BLUE = ChatColor.BLUE;
@@ -33,7 +34,7 @@ public class Loader extends JavaPlugin {
 	String fnlMsg0 = "";
 	Player pmt;
 	String name = null;
-	
+
 	public void onEnable() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
@@ -45,76 +46,77 @@ public class Loader extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		log.info(pdfFile.getName() + " is now disabled.");
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		String[] testArray = args;
+//		String[] testArray = args;
 		Player[] players = Bukkit.getOnlinePlayers();
 		for(String str: args){
 			fnlOut += " " + str;
 		}
-		
+
 		Player player = null;
 		if (sender instanceof Player) {
 			player = (Player) sender;
 		}
-		
-		if(cmd.getName().equalsIgnoreCase("ch")){
-			if(args[0] == "create"){
-				String name = args[1];
-				if(player != null)
-					channel.createChannel(name, player);
-			}
-		}
-		
-		if(cmd.getName().equalsIgnoreCase("sm")){
-			if(testArray == null){
-				if(player.hasPermission("OpTalk.chat") || player.hasPermission("*") || player.hasPermission("OpTalk.*") || player.isOp()){
-					if(pluginEnabled.containsKey((Player) sender)) {
-							togglePluginState((Player) sender);
-					}
-				}
-					toggleSmState((Player) sender);
-			}
-			else {
-				Player enzo = Bukkit.getPlayer("awyeaitsme");
-				Player rich = Bukkit.getPlayer("richardred15");
-				if(fnlMsg0 != null)
-					fnlOut = fnlOut.replace(fnlMsg0, "");
-				if(name != null)
-					fnlOut = fnlOut.replace(name, "");
-				if(fnlOut.contains("  "))
-					fnlOut = fnlOut.replace("  ", "");
-				for(Player plr: players){
-					if(plr == enzo){
-						if(enzo != null && rich != null){
-							if((Player) sender == rich){
-							Bukkit.getPlayer("awyeaitsme").sendMessage(PURPLE + "[Richard :(] " + fnlOut);
-							}
-							if((Player) sender == enzo){
-								Bukkit.getPlayer("awyeaitsme").sendMessage(PURPLE + "[Enzo!] " + fnlOut);
-							}
-						}
-						fnlOut = "";
-						return true;
-					}
-					if(plr == rich){
-						if(enzo != null && rich != null){
-							if((Player) sender == enzo){
-								Bukkit.getPlayer("richardred15").sendMessage(PURPLE + "[Enzo!] " + fnlOut);
-							}
-							if((Player) sender == rich){
-							Bukkit.getPlayer("richardred15").sendMessage(PURPLE + "[Richard :(] " + fnlOut);
-							}
-							}
-							fnlOut = "";
-							return true;						
-						}
-					}
-					fnlOut = "";
-					return true;
-				}
-			}
-		
+
+		//    if(cmd.getName().equalsIgnoreCase("ch")){
+		//      if(args[0] == "create"){
+		//        String name = args[1];
+		//        if(player != null)
+		//          channel.createChannel(name, player);
+		//      }
+		//    }
+		//
+		//    if(cmd.getName().equalsIgnoreCase("sm")){
+		//      if(testArray == null){
+		//        if(player.hasPermission("OpTalk.chat") || player.hasPermission("*") || player.hasPermission("OpTalk.*") || player.isOp()){
+		//          if(pluginEnabled.containsKey((Player) sender)) {
+		//            togglePluginState((Player) sender);
+		//          }
+		//        }
+		//        toggleSmState((Player) sender);
+		//      }
+		//      else {
+		//        Player enzo = Bukkit.getPlayer("awyeaitsme");
+		//        Player rich = Bukkit.getPlayer("richardred15");
+		//        if(fnlMsg0 != null)
+		//          fnlOut = fnlOut.replace(fnlMsg0, "");
+		//        if(name != null)
+		//          fnlOut = fnlOut.replace(name, "");
+		//        if(fnlOut.contains("  "))
+		//          fnlOut = fnlOut.replace("  ", "");
+		//        for(Player plr: players){
+		//          if(plr == enzo){
+		//            if(enzo != null && rich != null){
+		//              if((Player) sender == rich){
+		//                Bukkit.getPlayer("awyeaitsme").sendMessage(PURPLE + "[Richard :(] " + fnlOut);
+		//              }
+		//              if((Player) sender == enzo){
+		//                Bukkit.getPlayer("awyeaitsme").sendMessage(PURPLE + "[Enzo!] " + fnlOut);
+		//              }
+		//            }
+		//            fnlOut = "";
+		//            return true;
+		//          }
+		//          if(plr == rich){
+		//            if(enzo != null && rich != null){
+		//              if((Player) sender == enzo){
+		//                Bukkit.getPlayer("richardred15").sendMessage(PURPLE + "[Enzo!] " + fnlOut);
+		//              }
+		//              if((Player) sender == rich){
+		//                Bukkit.getPlayer("richardred15").sendMessage(PURPLE + "[Richard :(] " + fnlOut);
+		//              }
+		//            }
+		//            fnlOut = "";
+		//            return true;						
+		//          }
+		//        }
+		//        fnlOut = "";
+		//        return true;
+		//      }
+		//    }
+
+
 		if(cmd.getName().equalsIgnoreCase("ac")){
 			if(fnlMsg0 != null)
 				fnlOut = fnlOut.replace(fnlMsg0, "");
@@ -138,14 +140,14 @@ public class Loader extends JavaPlugin {
 						togglePluginState(player);
 				}
 				else {
-				    if(pluginEnabled.containsKey(player)){
-				        if(pluginEnabled.get(player)){
-				        	overRide = 1;
-				        	player.chat(fnlOut.replaceFirst(" ", ""));
-				        	fnlOut = "";
+					if(pluginEnabled.containsKey(player)){
+						if(pluginEnabled.get(player)){
+							overRide = 1;
+							player.chat(fnlOut.replaceFirst(" ", ""));
+							fnlOut = "";
 							return true;
+						}
 					}
-				    }
 					if(overRide == 0){
 						log.info("[" + player.getName() + "]" + fnlOut);
 						for(Player op: players){
@@ -157,8 +159,8 @@ public class Loader extends JavaPlugin {
 				}
 				fnlOut = "";
 				return true;
-				}
 			}
+		}
 
 		if(cmd.getName().equalsIgnoreCase("fsay")){
 		  if(sender.hasPermission("OpTalk.fsay") || sender.hasPermission("*") || sender.hasPermission("OpTalk.*") || sender.isOp()) {
@@ -176,17 +178,19 @@ public class Loader extends JavaPlugin {
 		          pmt.chat(fnlMsg0);
 		          fnlOut = "";
 		        }
-		      }	else {
+		      } else {
 		        sender.sendMessage(ChatColor.RED + "Invalid Username or Player Offline");
 		        fnlOut = "";
 		      }
 		    }
 		    return true;
+		  } else {
+		    sender.sendMessage(RED + "No Permission.");
+		    return true;
 		  }
-		  return false;
 		}
 
-		
+
 		if(cmd.getName().equalsIgnoreCase("fattach")){
 			Player plyer = null;
 			if(sender instanceof Player) {
@@ -195,10 +199,10 @@ public class Loader extends JavaPlugin {
 			if(plyer != null) {
 				if(sender.hasPermission("OpTalk.fattach") || sender.hasPermission("*") || sender.hasPermission("OpTalk.*") || sender.isOp()){
 					if (Bukkit.getPlayer(args[0]).hasPermission("OpTalk.exempt")) {
-					  sender.sendMessage(ChatColor.RED + "Player " + pmt.getDisplayName() + " is exempt from /fattach");
-					  return true;
+						sender.sendMessage(ChatColor.RED + "Player " + pmt.getDisplayName() + " is exempt from /fattach");
+						return true;
 					}
-				  if(userAttached.containsKey(plyer)) {
+					if(userAttached.containsKey(plyer)) {
 						String remvl = userAttached.get(plyer);
 						plyer.sendMessage("You dettached from player " + remvl);
 						userAttached.remove(plyer);
@@ -215,61 +219,72 @@ public class Loader extends JavaPlugin {
 			}
 			else {
 				sender.sendMessage("You may not use fattach!");
-		}
-			return true;
-	}
-		
-	if(cmd.getName().equalsIgnoreCase("fall")) {
-		for(Player plyer: players) {
-			if (!plyer.hasPermission("OpTalk.exempt")) {
-			  plyer.chat(fnlOut);
 			}
+			return true;
 		}
-		fnlOut = "";
-		return true;
+
+		if(cmd.getName().equalsIgnoreCase("fall")) {
+			StringBuilder sb = new StringBuilder();
+			for (String arg : args)
+				sb.append(arg + " ");        
+					String[] temp = sb.toString().split(" ");
+					String[] temp2 = Arrays.copyOfRange(temp, 0, temp.length);
+					sb.delete(0, sb.length());
+					for (String details : temp2)
+					{
+						sb.append(details);
+						sb.append(" ");
+					}
+					String details = sb.toString();        
+					for(Player plyer: players) {
+						if (!plyer.hasPermission("OpTalk.exempt")) {			  
+							plyer.chat(details);
+						}
+					}
+					fnlOut = "";
+					return true;
+		}
+		return false;
+	}	
+
+
+  public void togglePluginState(Player player){
+	  if(pluginEnabled.containsKey(player)){
+		  if(pluginEnabled.get(player)){
+			  pluginEnabled.put(player, false);
+			  pluginEnabled.remove(player);
+			  player.sendMessage(RED + "OpTalk Disabled");
+		  } 
+
+		  else {
+			  pluginEnabled.put(player, true);
+			  player.sendMessage(GREEN + "OpTalk Enabled");
+		  }
+	  } 
+
+		else {
+			pluginEnabled.put(player, true);
+			player.sendMessage(GREEN + "OpTalk Enabled");
+		}		
 	}
-			return false;
+
+	//  public void toggleSmState(Player player){
+	//    if(smChat.containsKey(player)){
+	//      if(smChat.get(player)){
+	//        smChat.put(player, false);
+	//        smChat.remove(player);
+	//        player.sendMessage(RED + "SmChat Disabled");
+	//      } 
+	//
+	//      else {
+	//        smChat.put(player, true);
+	//        player.sendMessage(AQUA + "SmChat Enabled");
+	//      }
+	//    } 
+	//
+	//    else {
+	//      smChat.put(player, true);
+	//      player.sendMessage(AQUA + "SmChat Enabled");
+	//    }		
+	//  }
 }
-	
-	
-	public void togglePluginState(Player player){
-	    if(pluginEnabled.containsKey(player)){
-	        if(pluginEnabled.get(player)){
-	            pluginEnabled.put(player, false);
-	            pluginEnabled.remove(player);
-	            player.sendMessage(RED + "OpTalk Disabled");
-	        } 
-	        
-	        else {
-	            pluginEnabled.put(player, true);
-	            player.sendMessage(AQUA + "OpTalk Enabled");
-	        }
-	    } 
-	    
-	    else {
-	        pluginEnabled.put(player, true);
-	        player.sendMessage(AQUA + "OpTalk Enabled");
-	    }		
-	}
-	
-	public void toggleSmState(Player player){
-	    if(smChat.containsKey(player)){
-	        if(smChat.get(player)){
-	        	smChat.put(player, false);
-	        	smChat.remove(player);
-	            player.sendMessage(RED + "SmChat Disabled");
-	        } 
-	        
-	        else {
-	        	smChat.put(player, true);
-	            player.sendMessage(AQUA + "SmChat Enabled");
-	        }
-	    } 
-	    
-	    else {
-	    	smChat.put(player, true);
-	        player.sendMessage(AQUA + "SmChat Enabled");
-	    }		
-	}
-}
-	
