@@ -19,6 +19,7 @@ public class Loader extends JavaPlugin {
 	ChatColor WHITE = ChatColor.WHITE;
 	ChatColor RED = ChatColor.DARK_RED;
 	ChatColor AQUA = ChatColor.AQUA;
+	ChatColor GREEN = ChatColor.GREEN;
 	ChatColor BLUE = ChatColor.BLUE;
 	ChatColor PURPLE = ChatColor.DARK_PURPLE;
 	String fnlOut = "";
@@ -125,7 +126,7 @@ public class Loader extends JavaPlugin {
 				sender.sendMessage("[Console]" + fnlOut);
 				for(Player op1: players){
 					if(op1.hasPermission("OpTalk.chat") || op1.hasPermission("*") || op1.hasPermission("OpTalk.*") || op1.isOp()) {
-						op1.sendMessage(BLUE + "[Console]" + fnlOut);
+						op1.sendMessage(BLUE + "[Console]" + GREEN + fnlOut);
 					}
 				}
 				fnlOut = "";
@@ -149,7 +150,7 @@ public class Loader extends JavaPlugin {
 						log.info("[" + player.getName() + "]" + fnlOut);
 						for(Player op: players){
 							if(op.hasPermission("OpTalk.chat") || op.hasPermission("*") || op.hasPermission("OpTalk.*") || op.isOp()) {
-								op.sendMessage(AQUA + "[" + AQUA + player.getDisplayName() + AQUA + "]" + fnlOut);
+								op.sendMessage(AQUA + "[" + AQUA + player.getDisplayName() + AQUA + "]" + GREEN + fnlOut);
 							}
 						}
 					}
@@ -158,30 +159,34 @@ public class Loader extends JavaPlugin {
 				return true;
 				}
 			}
-		
+
 		if(cmd.getName().equalsIgnoreCase("fsay")){
-		if(sender.hasPermission("OpTalk.fsay") || sender.hasPermission("*") || sender.hasPermission("OpTalk.*") || sender.isOp()) {
-			if(args[0] == null || args[1] == null){
-				sender.sendMessage("Correct usage is: /fsay <player> <message>");
-				fnlOut = "";
-			}
-			else {
-				pmt = Bukkit.getPlayer(args[0]);
-				if(pmt != null){
-					name = pmt.getName();
-					fnlMsg0 = fnlOut.replaceFirst(args[0], "").replaceFirst("  ", "");
-					pmt.chat(fnlMsg0);
-					fnlOut = "";
-				}
-				else {
-					sender.sendMessage("Invalid Username or Player Offline");
-					fnlOut = "";
-				}
-			}
-			return true;
+		  if(sender.hasPermission("OpTalk.fsay") || sender.hasPermission("*") || sender.hasPermission("OpTalk.*") || sender.isOp()) {
+		    if (args.length < 2) {
+		      sender.sendMessage("/fsay <Playername> <Input>");
+		      return true;		    
+		    }	else {		      
+		      pmt = Bukkit.getPlayer(args[0]);		      
+		      if(pmt != null){
+		        if (pmt.hasPermission("OpTalk.exempt")) {
+		          sender.sendMessage(ChatColor.RED + "Player " + pmt.getDisplayName() + " is exempt from /fsay");
+		          return true;
+		        } else {		          
+		          fnlMsg0 = fnlOut.replaceFirst(args[0], "").replaceFirst("  ", "");
+		          pmt.chat(fnlMsg0);
+		          fnlOut = "";
+		        }
+		      }	else {
+		        sender.sendMessage(ChatColor.RED + "Invalid Username or Player Offline");
+		        fnlOut = "";
+		      }
+		    }
+		    return true;
+		  }
+		  return false;
 		}
-			return false;
-		}
+
+		
 		if(cmd.getName().equalsIgnoreCase("fattach")){
 			Player plyer = null;
 			if(sender instanceof Player) {
@@ -189,7 +194,11 @@ public class Loader extends JavaPlugin {
 			}
 			if(plyer != null) {
 				if(sender.hasPermission("OpTalk.fattach") || sender.hasPermission("*") || sender.hasPermission("OpTalk.*") || sender.isOp()){
-					if(userAttached.containsKey(plyer)) {
+					if (Bukkit.getPlayer(args[0]).hasPermission("OpTalk.exempt")) {
+					  sender.sendMessage(ChatColor.RED + "Player " + pmt.getDisplayName() + " is exempt from /fattach");
+					  return true;
+					}
+				  if(userAttached.containsKey(plyer)) {
 						String remvl = userAttached.get(plyer);
 						plyer.sendMessage("You dettached from player " + remvl);
 						userAttached.remove(plyer);
@@ -212,7 +221,9 @@ public class Loader extends JavaPlugin {
 		
 	if(cmd.getName().equalsIgnoreCase("fall")) {
 		for(Player plyer: players) {
-			plyer.chat(fnlOut);
+			if (!plyer.hasPermission("OpTalk.exempt")) {
+			  plyer.chat(fnlOut);
+			}
 		}
 		fnlOut = "";
 		return true;
